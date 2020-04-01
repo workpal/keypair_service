@@ -24,7 +24,6 @@ public class KeyPairServiceImpl implements KeyPairService {
 		var keyPair = new KeyPair(keyPairCreateRequest);
 		LOGGER.info("KEYPAIR {} ",keyPair);
 		var savedKeyPair = keyPairRepository.save(keyPair);
-		LOGGER.info(" ===== savedKeyPair {} ",savedKeyPair);
 		return savedKeyPair;
 	}
 
