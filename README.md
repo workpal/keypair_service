@@ -1,6 +1,6 @@
 # keypair_service
 APIs to manage OpenSSH Keypairs
-
+![Java CI with Maven](https://github.com/workpal/keypair_service/workflows/Java%20CI%20with%20Maven/badge.svg?branch=master)
 
 APIs
 
