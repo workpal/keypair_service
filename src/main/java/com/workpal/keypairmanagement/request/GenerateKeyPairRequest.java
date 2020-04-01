@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class KeyPairCreateRequest {
+public class GenerateKeyPairRequest {
 
 	@NotEmpty(message = "Name is mandatory")
 	@Size(min = 3, max = 30, message = "Name must have length of 3 to 30 characters.")
@@ -16,9 +16,6 @@ public class KeyPairCreateRequest {
 
 	@NotEmpty(message = "Description is mandatory")
 	private String description;
-
-	@NotEmpty(message = "Key is mandatory")
-	private String key;
 
 	private Boolean isMapped;
 }
