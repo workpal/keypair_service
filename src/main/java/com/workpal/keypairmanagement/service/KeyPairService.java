@@ -1,14 +1,12 @@
 package com.workpal.keypairmanagement.service;
 
-import org.springframework.stereotype.Service;
-
+import com.workpal.keypairmanagement.domain.KeyPair;
 import com.workpal.keypairmanagement.request.GenerateKeyPairRequest;
 import com.workpal.keypairmanagement.request.KeyPairCreateRequest;
 
-@Service
 public interface KeyPairService {
 
-	public void createKeyPair(KeyPairCreateRequest keyPairCreateRequest);
+	public KeyPair createKeyPair(KeyPairCreateRequest keyPairCreateRequest);
 	
 	public void generateKeyPair(GenerateKeyPairRequest generateKeyPairRequest);
 }
