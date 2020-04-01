@@ -2,7 +2,7 @@
 APIs to manage OpenSSH Keypairs
 
 
-![Java CI with Maven](https://github.com/workpal/keypair_service/workflows/Java%20CI%20with%20Maven/badge.svg?branch=master)
+![Build](https://github.com/workpal/keypair_service/workflows/Java%20CI%20with%20Maven/badge.svg?branch=master)
 ![Vulnerabililty Check](https://github.com/workpal/keypair_service/workflows/Vulnerabililty%20Check/badge.svg?branch=master)
 
 APIs
