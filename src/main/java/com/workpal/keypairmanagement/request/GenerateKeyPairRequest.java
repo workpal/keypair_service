@@ -17,5 +17,4 @@ public class GenerateKeyPairRequest {
 	@NotEmpty(message = "Description is mandatory")
 	private String description;
 
-	private Boolean isMapped;
 }

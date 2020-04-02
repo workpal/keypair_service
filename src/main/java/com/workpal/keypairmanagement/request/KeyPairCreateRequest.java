@@ -20,5 +20,4 @@ public class KeyPairCreateRequest {
 	@NotEmpty(message = "Key is mandatory")
 	private String key;
 
-	private Boolean isMapped;
 }
