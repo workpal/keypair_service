@@ -109,7 +109,7 @@ public class KeyPairServiceImpl implements KeyPairService {
 			var errMsg = String.format("Keypair doesn't exists with : %s", keyPairId);
 			LOGGER.error(errMsg);
 			return new ResourceNotFoundException(errMsg);
-		});		
+		});	
 		return keyPair;
 	}
 

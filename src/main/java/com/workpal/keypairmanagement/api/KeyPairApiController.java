@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,6 +37,19 @@ public class KeyPairApiController implements KeyPairApi	 {
 		LOGGER.info("Generate key pair {} ",generateKeyPairRequest);
 		keyPairService.generateKeyPair(generateKeyPairRequest);
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<?> getAllKeyPair() {
+		var keyPairs = keyPairService.getAllKeyPairs(); 		
+		return new ResponseEntity<>(keyPairs, HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<?> getKeyPairById(@PathVariable(value = "keyPairId") String keyPairId) {
+		LOGGER.info("Key pair Id {} ",keyPairId);
+		var keyPair = keyPairService.getKeyPairById(keyPairId);
+		return new ResponseEntity<>(keyPair, HttpStatus.OK);
 	}
 
 }
