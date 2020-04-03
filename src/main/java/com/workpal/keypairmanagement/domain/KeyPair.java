@@ -1,7 +1,5 @@
 package com.workpal.keypairmanagement.domain;
 
-import static com.workpal.keypairmanagement.enums.KeyCreationType.GENERATED;
-import static com.workpal.keypairmanagement.enums.KeyCreationType.IMPORTED;
 import static com.workpal.keypairmanagement.enums.KeyPairStatus.ACTIVE;
 
 import java.util.Date;
@@ -11,8 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.workpal.keypairmanagement.enums.KeyCreationType;
 import com.workpal.keypairmanagement.enums.KeyPairStatus;
-import com.workpal.keypairmanagement.request.GenerateKeyPairRequest;
-import com.workpal.keypairmanagement.request.KeyPairCreateRequest;
 
 import lombok.Data;
 

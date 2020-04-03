@@ -4,10 +4,10 @@ import static com.workpal.keypairmanagement.enums.KeyCreationType.GENERATED;
 import static com.workpal.keypairmanagement.enums.KeyCreationType.IMPORTED;
 
 import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 
 import org.bouncycastle.crypto.util.OpenSSHPublicKeyUtil;
 import org.slf4j.Logger;
@@ -19,6 +19,7 @@ import com.jcraft.jsch.JSch;
 import com.workpal.keypairmanagement.domain.KeyPair;
 import com.workpal.keypairmanagement.exception.InternalServerErrorException;
 import com.workpal.keypairmanagement.exception.KeyPairValidationException;
+import com.workpal.keypairmanagement.exception.ResourceNotFoundException;
 import com.workpal.keypairmanagement.repository.KeyPairRepository;
 import com.workpal.keypairmanagement.request.GenerateKeyPairRequest;
 import com.workpal.keypairmanagement.request.KeyPairCreateRequest;
@@ -93,6 +94,23 @@ public class KeyPairServiceImpl implements KeyPairService {
 			LOGGER.info(errMsg);
 			throw new KeyPairValidationException(errMsg);
 		}
+	}
+
+	@Override
+	public List<KeyPair> getAllKeyPairs() {
+		LOGGER.info("Get all keypairs");
+		return keyPairRepository.findAll();
+	}
+
+	@Override
+	public KeyPair getKeyPairById(String keyPairId) {
+		LOGGER.info("Get keypair by ID {} ", keyPairId);
+		var keyPair = keyPairRepository.findById(keyPairId).orElseThrow(() -> {
+			var errMsg = String.format("Keypair doesn't exists with : %s", keyPairId);
+			LOGGER.error(errMsg);
+			return new ResourceNotFoundException(errMsg);
+		});		
+		return keyPair;
 	}
 
 }
