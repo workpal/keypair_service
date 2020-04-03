@@ -24,34 +24,21 @@ public class KeyPair {
 	private String name;
 	private String description;
 	private String publicKey;
-	private KeyPairStatus status;	
+	private KeyPairStatus status;
 	private KeyCreationType type;
 	private Date createdDate;
-	
+
 	public KeyPair() {
-		
+
 	}
-	
-	public KeyPair(KeyPairCreateRequest keyPairCreateRequest) {
-	
-		this.name = keyPairCreateRequest.getName();
-		this.description = keyPairCreateRequest.getDescription();
-		this.publicKey = keyPairCreateRequest.getKey();
-		this.type = IMPORTED;
+
+	public KeyPair(String name, String description, String key, KeyCreationType type) {
+		this.name = name;
+		this.description = description;
+		this.publicKey = key;
+		this.type = type;
 		this.status = ACTIVE;
 		this.createdDate = new Date();
-		
-	}
-	
-	public KeyPair(GenerateKeyPairRequest keyPairCreateRequest, String publicKey) {
-		
-		this.name = keyPairCreateRequest.getName();
-		this.description = keyPairCreateRequest.getDescription();
-		this.publicKey = publicKey;
-		this.type = GENERATED;
-		this.status = ACTIVE;
-		this.createdDate = new Date();
-		
 	}
 
 }
