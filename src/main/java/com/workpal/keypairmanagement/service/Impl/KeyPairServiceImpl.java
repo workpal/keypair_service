@@ -3,6 +3,7 @@ package com.workpal.keypairmanagement.service.Impl;
 import static com.workpal.keypairmanagement.enums.KeyCreationType.GENERATED;
 import static com.workpal.keypairmanagement.enums.KeyCreationType.IMPORTED;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
@@ -46,10 +47,10 @@ public class KeyPairServiceImpl implements KeyPairService {
 	}
 
 	@Override
-	public com.jcraft.jsch.KeyPair generateKeyPair(GenerateKeyPairRequest generateKeyPairRequest) {
+	public String generateKeyPair(GenerateKeyPairRequest generateKeyPairRequest) {
 		var keyPairMap = generateKeyPair();
-		String publicKey = keyPairMap.get("publicKey").toString();
-		var privateKey = (com.jcraft.jsch.KeyPair) keyPairMap.get("privateKey");
+		String publicKey = keyPairMap.get("publicKey");
+		String privateKey = keyPairMap.get("privateKey");
 		var keyPair = new KeyPair(generateKeyPairRequest.getName(), generateKeyPairRequest.getDescription(), publicKey,
 				GENERATED);
 		LOGGER.info("Generate keypair {} ", keyPair);
@@ -57,8 +58,8 @@ public class KeyPairServiceImpl implements KeyPairService {
 		return privateKey;
 	}
 
-	private Map<String, Object> generateKeyPair() {
-		Map<String,Object> keyPairMap = new HashMap<String, Object>();
+	private Map<String, String> generateKeyPair() {
+		Map<String,String> keyPairMap = new HashMap<String, String>();
 		String publicKeyContent = null;
 		try {
 			String comment = "ci-key-" + new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
@@ -68,10 +69,13 @@ public class KeyPairServiceImpl implements KeyPairService {
 
 			byte[] pubblob = kpair.getPublicKeyBlob();
 			byte[] pub = Base64.getEncoder().encode(pubblob);
+			
+			 ByteArrayOutputStream privateKeyBuff = new ByteArrayOutputStream(2048);
+			 kpair.writePrivateKey(privateKeyBuff);
 
 			publicKeyContent = new String(pub, StandardCharsets.UTF_8);
 			publicKeyContent = "ssh-rsa " + publicKeyContent + " " + comment;
-			keyPairMap.put("privateKey", kpair);
+			keyPairMap.put("privateKey", privateKeyBuff.toString());
 			keyPairMap.put("publicKey", publicKeyContent);
 			kpair.dispose();
 

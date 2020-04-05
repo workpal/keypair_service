@@ -4,10 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,7 +75,8 @@ public class KeyPairServiceTest {
 		generateKeyPairRequest.setName("Generate key pair test");
 		generateKeyPairRequest.setDescription("Generate key pair test description");
 		when(keyPairRepo.save(any(KeyPair.class))).thenReturn(new KeyPair());
-		keyPairService.generateKeyPair(generateKeyPairRequest);
+		var privateKey = keyPairService.generateKeyPair(generateKeyPairRequest);
+		assertTrue(!privateKey.isEmpty());
 	}
 
 	@DisplayName("Get all key pair")
