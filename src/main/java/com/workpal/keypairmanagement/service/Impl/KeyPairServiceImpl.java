@@ -7,7 +7,9 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bouncycastle.crypto.util.OpenSSHPublicKeyUtil;
 import org.slf4j.Logger;
@@ -44,15 +46,19 @@ public class KeyPairServiceImpl implements KeyPairService {
 	}
 
 	@Override
-	public void generateKeyPair(GenerateKeyPairRequest generateKeyPairRequest) {
-		String publicKey = generateKeyPair();
+	public com.jcraft.jsch.KeyPair generateKeyPair(GenerateKeyPairRequest generateKeyPairRequest) {
+		var keyPairMap = generateKeyPair();
+		String publicKey = keyPairMap.get("publicKey").toString();
+		var privateKey = (com.jcraft.jsch.KeyPair) keyPairMap.get("privateKey");
 		var keyPair = new KeyPair(generateKeyPairRequest.getName(), generateKeyPairRequest.getDescription(), publicKey,
 				GENERATED);
 		LOGGER.info("Generate keypair {} ", keyPair);
 		keyPairRepository.save(keyPair);
+		return privateKey;
 	}
 
-	private String generateKeyPair() {
+	private Map<String, Object> generateKeyPair() {
+		Map<String,Object> keyPairMap = new HashMap<String, Object>();
 		String publicKeyContent = null;
 		try {
 			String comment = "ci-key-" + new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
@@ -65,6 +71,8 @@ public class KeyPairServiceImpl implements KeyPairService {
 
 			publicKeyContent = new String(pub, StandardCharsets.UTF_8);
 			publicKeyContent = "ssh-rsa " + publicKeyContent + " " + comment;
+			keyPairMap.put("privateKey", kpair);
+			keyPairMap.put("publicKey", publicKeyContent);
 			kpair.dispose();
 
 		} catch (Exception e) {
@@ -72,7 +80,7 @@ public class KeyPairServiceImpl implements KeyPairService {
 			throw new InternalServerErrorException("Internal Server Error");
 		}
 
-		return publicKeyContent;
+		return keyPairMap;
 	}
 
 	private void ValidateKeyPair(String key) {

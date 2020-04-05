@@ -10,7 +10,7 @@ public interface KeyPairService {
 
 	public void createKeyPair(KeyPairCreateRequest keyPairCreateRequest);
 	
-	public void generateKeyPair(GenerateKeyPairRequest generateKeyPairRequest);
+	public com.jcraft.jsch.KeyPair generateKeyPair(GenerateKeyPairRequest generateKeyPairRequest);
 	
 	public List<KeyPair> getAllKeyPairs();
 	
