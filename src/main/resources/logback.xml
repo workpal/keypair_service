@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<property resource="bootstrap.yml" />
+	<property name="LOG_PATH" value="${logPath}" />
+	<timestamp key="dateFormat" datePattern="yyyyMMdd" />
+	<appender name="FILE-THREAD" class="ch.qos.logback.classic.sift.SiftingAppender">
+
+		<!-- This is MDC value -->
+		<!-- We will assign a value to 'logFileName' via Java code -->
+		<discriminator>
+			<key>logFileName</key>
+			<defaultValue>keypair_service</defaultValue>
+		</discriminator>
+
+		<sift>
+
+			<!-- A standard RollingFileAppender, the log file is based on 'logFileName' 
+				at runtime -->
+			<appender name="FILE-${logFileName}"
+				class="ch.qos.logback.core.rolling.RollingFileAppender">
+				<file>${LOG_PATH}/${logFileName}.log</file>
+
+				<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+					<Pattern>
+						%d{yyyy-MM-dd HH:mm:ss} %mdc [%thread] %level  %logger{36}.%M - %msg%n
+					</Pattern>
+				</encoder>
+
+				<rollingPolicy
+					class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+					<FileNamePattern>${LOG_PATH}/${logFileName}.%i.log.zip
+					</FileNamePattern>
+					<MinIndex>1</MinIndex>
+					<MaxIndex>10</MaxIndex>
+				</rollingPolicy>
+
+				<triggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+					<MaxFileSize>10MB</MaxFileSize>
+				</triggeringPolicy>
+
+			</appender>
+
+		</sift>
+	</appender>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n
+			</Pattern>
+		</layout>
+	</appender>
+
+	<logger name="com.workpal.keypairmanagement" level="debug" additivity="false">
+		<appender-ref ref="FILE-THREAD" />
+		<appender-ref ref="STDOUT" />
+	</logger>
+
+	<root level="error">
+		<appender-ref ref="FILE-THREAD" />
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration>
