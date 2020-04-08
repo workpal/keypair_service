@@ -101,17 +101,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>DataTest.java</exclude>
-					</excludes>
-					<includes>
-						<include>DataCheck.java</include>
-					</includes>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 
