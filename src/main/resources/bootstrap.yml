@@ -1,0 +1,5 @@
+#for windows
+#logPath: C:/temp/keypair_service/
+
+#for linux
+logPath: /var/tmp/keypair_service/
